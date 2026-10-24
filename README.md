@@ -6,9 +6,8 @@
 
 **Happiest Health Digital Twin Challenge 2026 — Prototype & Code Submission**
 
-[GitHub Repository](https://github.com/Eanshnexus/GlycoTwin_guptaekkansh_VITVellore) · [Architecture Diagram](docs/submission/GlycoTwin_Architecture.pdf) · [Project Presentation](docs/submission/GlycoTwin_Presentation.pdf) · [Demo Video](#demo-video)
-
----
+[GitHub Repository](https://github.com/Eanshnexus/GlycoTwin_guptaekkansh_VITVellore) · [Architecture Diagram]· [Project Presentation] [Demo Video]
+https://drive.google.com/drive/folders/1Ie0_HBlIVaHmAVzX35ObeTgrpluxGRe6?usp=drive_link
 
 ## 1. Team Details
 
