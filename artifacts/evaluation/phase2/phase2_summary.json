@@ -1,0 +1,33 @@
+{
+  "pipeline_phase": "Phase 2: Baseline ML & Personalisation",
+  "execution_timestamp": "2026-10-23T18:56:12Z",
+  "elapsed_seconds": 160.01,
+  "tasks_evaluated": [
+    "task_a_future_hypo",
+    "task_b_impending_onset"
+  ],
+  "models_evaluated": [
+    "rule_based",
+    "logistic_regression",
+    "xgboost"
+  ],
+  "n_splits": 5,
+  "total_participants": 25,
+  "task_a_sample_count": 308942,
+  "task_b_sample_count": 288628,
+  "personalisation_summary": {
+    "task_name": "task_b_impending_onset",
+    "total_participants": 25,
+    "successful_adaptations": 24,
+    "fallback_adaptations": 1,
+    "calibration_ratio": 0.3,
+    "min_calibration_positive_events": 2
+  },
+  "population_headline_results": {
+    "task_b_onset_xgboost_roc_auc": 0.9667,
+    "task_b_onset_xgboost_avg_prec": 0.5843,
+    "task_b_onset_logreg_roc_auc": 0.9595,
+    "task_b_onset_logreg_avg_prec": 0.428,
+    "task_b_onset_rule_based_roc_auc": 0.9582
+  }
+}

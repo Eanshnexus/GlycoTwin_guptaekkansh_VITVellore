@@ -1,0 +1,135 @@
+{
+  "audit_metadata": {
+    "audit_timestamp": "2026-10-24T01:30:00Z",
+    "auditor": "Antigravity Senior ML & Verification Agent",
+    "project": "GlycoTwin",
+    "dataset": "HUPA-UCM Diabetes Dataset",
+    "total_participants": 25,
+    "environment": {
+      "python_version": "3.13.15",
+      "os": "Windows",
+      "scikit_learn": "1.9.0",
+      "xgboost": "3.4.1",
+      "pandas": "2.3.2",
+      "numpy": "2.3.4",
+      "pytest": "9.1.1"
+    }
+  },
+  "reconciliation_summary": {
+    "feature_count": {
+      "reported_phase1_text": 27,
+      "reported_phase1_manifest": 28,
+      "reported_phase2": 28,
+      "verified_count": 28,
+      "explanation": "Typo in early Phase 1 narrative text. Exactly 28 numeric features exist in FEATURE_COLUMNS, the manifest, and glycotwin_features.parquet."
+    },
+    "task_a_positive_count": {
+      "reported_phase0": 30192,
+      "phase0_exact_sum": 27729,
+      "reported_phase1_and_phase2": 27661,
+      "verified_modelling_eligible": 27661,
+      "explanation": "Phase 0 narrative report cited 30,192 as an unverified manual approximation (309,242 * 9.76%). The exact sum of target-eligible positives in phase0_data_audit.json was 27,729. When excluding the 12 warmup steps per participant (is_modelling_eligible == True), the exact positive count is 27,661."
+    },
+    "task_b_onset_count": {
+      "reported_phase0": 8761,
+      "reported_phase1_and_phase2": 8742,
+      "verified_modelling_eligible": 8742,
+      "explanation": "Phase 0 reported 8,761 over all target-eligible windows. When excluding the 12 warmup steps per participant (is_modelling_eligible == True), exactly 8,742 onset events remain."
+    },
+    "cohort_counts": {
+      "total_raw_observations": 309392,
+      "target_eligible_observations": 309242,
+      "modelling_eligible_observations": 308942,
+      "task_a_eligible_windows": 308942,
+      "task_a_positives": 27661,
+      "task_a_negatives": 281281,
+      "task_b_eligible_windows": 288628,
+      "task_b_positives": 8742,
+      "task_b_negatives": 279886
+    }
+  },
+  "leakage_audit": {
+    "feature_leakage_review": "PASS",
+    "temporal_directionality": "Strictly backward-looking (lags k > 0, trailing right-aligned rolling windows)",
+    "future_alteration_test": "PASS (Mutating future glucose does not alter current feature vector)",
+    "preprocessor_fitting": "PASS (StandardScaler fitted strictly on training fold X_train inside scikit-learn Pipeline)",
+    "group_kfold_isolation": "PASS (Zero participant overlap between train and validation folds)"
+  },
+  "personalisation_audit": {
+    "horizon_overlap_vulnerability": "DETECTED_AND_CORRECTED",
+    "description": "The initial Phase 2 implementation split calibration and evaluation at index n_calib without a purge gap. The final 6 calibration rows had 30-minute target windows overlapping into the evaluation segment. A 30-minute purge gap (5-6 rows per participant) was implemented and verified, completely eliminating horizon overlap.",
+    "adaptation_mechanism": "Platt scaling (1D Logistic Regression on population log-odds)",
+    "mathematical_effect": "Monotonic transformation of log-odds. Ranking metrics (ROC-AUC, Average Precision) are strictly invariant (delta ~ 0.0000). Probability calibration is substantially improved (Brier score improves across all 24 adapted participants) by correcting for population class-weight probability distortion.",
+    "threshold_scaling_interaction": "Previously, applying the population threshold (~0.50) to Platt-recalibrated probabilities (~0.03) collapsed F1 score (-0.42). Adapting the decision threshold via the adapter function preserves the intended classification decision boundary while delivering well-calibrated probabilities.",
+    "insufficient_data_handling": "HUPA0009P (0 positive events) handled gracefully via fallback_to_population, preserving all 25 participants in reporting."
+  },
+  "recomputed_metrics_validation": {
+    "task_a_future_hypo": {
+      "rule_based": {
+        "roc_auc_pooled": 0.9859,
+        "avg_prec_pooled": 0.8804,
+        "f1_pooled": 0.7770,
+        "brier_pooled": 0.0526,
+        "roc_auc_macro": 0.9863,
+        "avg_prec_macro": 0.8736
+      },
+      "logistic_regression": {
+        "roc_auc_pooled": 0.9818,
+        "avg_prec_pooled": 0.8521,
+        "f1_pooled": 0.7301,
+        "brier_pooled": 0.0545,
+        "roc_auc_macro": 0.9827,
+        "avg_prec_macro": 0.8496
+      },
+      "xgboost": {
+        "roc_auc_pooled": 0.9882,
+        "avg_prec_pooled": 0.9168,
+        "f1_pooled": 0.8176,
+        "brier_pooled": 0.0336,
+        "roc_auc_macro": 0.9891,
+        "avg_prec_macro": 0.9153
+      }
+    },
+    "task_b_impending_onset": {
+      "rule_based": {
+        "roc_auc_pooled": 0.9634,
+        "avg_prec_pooled": 0.5471,
+        "f1_pooled": 0.4452,
+        "brier_pooled": 0.0244,
+        "roc_auc_macro": 0.9646,
+        "avg_prec_macro": 0.5601
+      },
+      "logistic_regression": {
+        "roc_auc_pooled": 0.9575,
+        "avg_prec_pooled": 0.4998,
+        "f1_pooled": 0.4230,
+        "brier_pooled": 0.0287,
+        "roc_auc_macro": 0.9594,
+        "avg_prec_macro": 0.5158
+      },
+      "xgboost": {
+        "roc_auc_pooled": 0.9702,
+        "avg_prec_pooled": 0.6273,
+        "f1_pooled": 0.5369,
+        "brier_pooled": 0.0202,
+        "roc_auc_macro": 0.9711,
+        "avg_prec_macro": 0.6325
+      }
+    }
+  },
+  "test_suite_status": {
+    "total_tests": 35,
+    "passed": 35,
+    "failed": 0,
+    "phase0_tests": 2,
+    "phase1_tests": 18,
+    "phase2_tests": 15
+  },
+  "audit_verdict": "PASS WITH CAVEATS",
+  "readiness_for_phase3": true,
+  "caveats_and_limitations": [
+    "Cohort size is limited to 25 adult Type 1 diabetes participants from a single clinical center.",
+    "Platt scaling personalisation modifies probability calibration but does not alter sample ranking (ROC-AUC delta is zero).",
+    "Clinical alert thresholds must be mapped in tandem with calibrated probabilities to prevent sensitivity suppression."
+  ]
+}

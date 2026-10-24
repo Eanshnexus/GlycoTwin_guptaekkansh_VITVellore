@@ -1,0 +1,95 @@
+{
+  "total_false_positives": 3715,
+  "total_false_negatives": 3695,
+  "total_true_positives": 5047,
+  "total_true_negatives": 276171,
+  "by_glucose_range": {
+    "borderline_70_80": {
+      "total_windows": 16001,
+      "false_positives": 2004,
+      "false_negatives": 1193,
+      "true_positives": 3611,
+      "true_negatives": 9193
+    },
+    "target_low_80_100": {
+      "total_windows": 40956,
+      "false_positives": 1673,
+      "false_negatives": 1632,
+      "true_positives": 1413,
+      "true_negatives": 36238
+    },
+    "target_norm_100_140": {
+      "total_windows": 94718,
+      "false_positives": 38,
+      "false_negatives": 805,
+      "true_positives": 23,
+      "true_negatives": 93852
+    },
+    "elevated_140_180": {
+      "total_windows": 69289,
+      "false_positives": 0,
+      "false_negatives": 55,
+      "true_positives": 0,
+      "true_negatives": 69234
+    },
+    "hyperglycemia_gt_180": {
+      "total_windows": 67664,
+      "false_positives": 0,
+      "false_negatives": 10,
+      "true_positives": 0,
+      "true_negatives": 67654
+    }
+  },
+  "by_glucose_slope": {
+    "steep_drop_lt_minus_1": {
+      "total_windows": 0,
+      "false_positives": 0,
+      "false_negatives": 0,
+      "true_positives": 0
+    },
+    "moderate_drop_minus_1_to_minus_03": {
+      "total_windows": 0,
+      "false_positives": 0,
+      "false_negatives": 0,
+      "true_positives": 0
+    },
+    "steady_minus_03_to_plus_03": {
+      "total_windows": 288628,
+      "false_positives": 3715,
+      "false_negatives": 3695,
+      "true_positives": 5047
+    },
+    "rising_gt_plus_03": {
+      "total_windows": 0,
+      "false_positives": 0,
+      "false_negatives": 0,
+      "true_positives": 0
+    }
+  },
+  "by_time_of_day": {
+    "night_00_to_06": {
+      "total_windows": 71163,
+      "false_positives": 642,
+      "false_negatives": 572,
+      "true_positives": 904
+    },
+    "morning_06_to_12": {
+      "total_windows": 71617,
+      "false_positives": 722,
+      "false_negatives": 778,
+      "true_positives": 959
+    },
+    "afternoon_12_to_18": {
+      "total_windows": 72027,
+      "false_positives": 1315,
+      "false_negatives": 1381,
+      "true_positives": 1928
+    },
+    "evening_18_to_24": {
+      "total_windows": 73821,
+      "false_positives": 1036,
+      "false_negatives": 964,
+      "true_positives": 1256
+    }
+  }
+}
